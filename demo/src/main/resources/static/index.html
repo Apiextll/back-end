@@ -1,0 +1,149 @@
+docker compose down<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./js/api.js" defer></script>
+    <script src="./js/game.js" defer></script>
+    <script src="./js/main.js" defer></script>
+    <title>TypeWars</title>
+</head>
+<body class="body">
+<main class="card_container">
+    <h1>typewars</h1>
+    <p id="msg" class="msg" hidden></p>
+
+    <!-- LOGIN -->
+    <section id="tela-login" class="tela ativa">
+        <h2>Dois jogadores. Um desafio. Quem vence?</h2>
+        <form id="form-login" class="login">
+            <div class="input_group">
+                <label for="username">Nome do jogador</label>
+                <input type="text" class="login_name" id="username" required placeholder="Digite seu nome">
+            </div>
+            <div class="input_group">
+                <label for="codigo_sala">Código da sala</label>
+                <input type="text" id="codigo_sala" required placeholder="Ex.: SALA01">
+            </div>
+            <div class="input_group">
+                <label for="senha_sala">Senha da sala</label>
+                <input type="password" class="login_key" id="senha_sala" placeholder="Digite a senha">
+            </div>
+            <button type="submit" class="btn_submit"><span>ENTRAR NA PARTIDA</span></button>
+        </form>
+        <nav class="links">
+            <button type="button" data-ir="criar">Criar sala</button>
+            <button type="button" data-ir="ranking">Ranking</button>
+            <button type="button" data-ir="admin">Admin</button>
+        </nav>
+    </section>
+
+    <!-- CRIAR SALA -->
+    <section id="tela-criar" class="tela">
+        <h2>Criar sala</h2>
+        <form id="form-criar" class="login">
+            <div class="input_group"><label for="c_codigo">Código da sala</label>
+                <input type="text" id="c_codigo" required placeholder="Ex.: SALA01"></div>
+            <div class="input_group"><label for="c_senha">Senha (opcional)</label>
+                <input type="password" id="c_senha" placeholder="Deixe vazio para sala aberta"></div>
+            <div class="input_group"><label for="c_modo">Modo de jogo</label>
+                <select id="c_modo">
+                    <option value="DUPLO_PC_REDE">2 computadores (rede)</option>
+                    <option value="TURNO_LOCAL_1PC">1 computador (turnos)</option>
+                </select></div>
+            <div class="input_group"><label for="c_materia">Matéria</label>
+                <select id="c_materia"><option value="GERAL">Matérias Gerais</option></select></div>
+            <div id="nomes-local" hidden>
+                <div class="input_group"><label for="c_n1">Jogador 1</label>
+                    <input type="text" id="c_n1" placeholder="Nome do jogador 1"></div>
+                <div class="input_group"><label for="c_n2">Jogador 2</label>
+                    <input type="text" id="c_n2" placeholder="Nome do jogador 2"></div>
+            </div>
+            <button type="submit" class="btn_submit"><span>CRIAR SALA</span></button>
+            <button type="button" class="btn_submit sec" data-ir="login"><span>VOLTAR</span></button>
+        </form>
+    </section>
+
+    <!-- ESPERA / CONTAGEM -->
+    <section id="tela-espera" class="tela">
+        <h2 id="espera-titulo">Sala</h2>
+        <div id="jogadores" class="jogadores"></div>
+        <p id="contagem" class="contagem" hidden></p>
+        <button type="button" id="btn-pronto" class="btn_submit"><span>ESTOU PRONTO</span></button>
+        <button type="button" id="btn-sair" class="btn_submit sec"><span>SAIR DA SALA</span></button>
+    </section>
+
+    <!-- JOGO -->
+    <section id="tela-jogo" class="tela">
+        <div id="placar" class="placar"></div>
+        <div class="timers">
+            <span>Partida <b id="t-total">2:00</b></span>
+            <span>Questão <b id="t-questao">15</b>s</span>
+        </div>
+        <p id="vez" class="vez"></p>
+        <p id="q-meta" class="meta"></p>
+        <h3 id="enunciado"></h3>
+        <div id="alternativas" class="alternativas"></div>
+        <p id="feedback" class="feedback"></p>
+    </section>
+
+    <!-- TRANSIÇÃO -->
+    <section id="tela-transicao" class="tela">
+        <h2 id="trans-titulo">Fim do turno</h2>
+        <div id="placar-trans" class="placar"></div>
+        <p>Passe o computador para o próximo jogador.</p>
+        <button type="button" id="btn-segundo-turno" class="btn_submit"><span>INICIAR 2º TURNO</span></button>
+    </section>
+
+    <!-- RESULTADO -->
+    <section id="tela-resultado" class="tela">
+        <h2 id="res-titulo"></h2>
+        <p id="res-motivo" class="meta"></p>
+        <div id="res-placar" class="placar"></div>
+        <button type="button" class="btn_submit" data-ir="ranking"><span>VER RANKING</span></button>
+        <button type="button" class="btn_submit sec" data-ir="login"><span>NOVA PARTIDA</span></button>
+    </section>
+
+    <!-- RANKING -->
+    <section id="tela-ranking" class="tela">
+        <h2>Ranking</h2>
+        <div class="scroll">
+            <table id="tabela-rank">
+                <thead><tr><th>#</th><th>Jogador</th><th>Pontos</th><th>Acertos</th><th>Tempo médio</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <p class="meta">Salvo neste computador.</p>
+        <button type="button" class="btn_submit" data-ir="login"><span>VOLTAR</span></button>
+        <button type="button" id="btn-limpar-rank" class="btn_submit sec"><span>LIMPAR RANKING</span></button>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="tela-admin" class="tela">
+        <h2>Administração</h2>
+        <form id="form-questao" class="login">
+            <div class="input_group"><label for="q_enunciado">Enunciado</label>
+                <textarea id="q_enunciado" required rows="3"></textarea></div>
+            <div class="input_group"><label for="q_materia">Matéria</label><select id="q_materia"></select></div>
+            <div class="input_group"><label for="q_dif">Dificuldade</label>
+                <select id="q_dif">
+                    <option value="FACIL">Fácil (100 pts)</option>
+                    <option value="MEDIO">Médio (200 pts)</option>
+                    <option value="DIFICIL">Difícil (300 pts)</option>
+                </select></div>
+            <div class="input_group"><label>Alternativas</label>
+                <input type="text" class="q_alt" required placeholder="Alternativa A">
+                <input type="text" class="q_alt" required placeholder="Alternativa B">
+                <input type="text" class="q_alt" required placeholder="Alternativa C">
+                <input type="text" class="q_alt" required placeholder="Alternativa D"></div>
+            <div class="input_group"><label for="q_correta">Alternativa correta</label>
+                <select id="q_correta"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+            <button type="submit" class="btn_submit"><span>SALVAR QUESTÃO</span></button>
+        </form>
+        <button type="button" id="btn-reiniciar" class="btn_submit danger"><span>REINICIAR TORNEIO</span></button>
+        <button type="button" class="btn_submit sec" data-ir="login"><span>VOLTAR</span></button>
+    </section>
+</main>
+</body>
+</html>

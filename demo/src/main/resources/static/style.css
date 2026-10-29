@@ -1,0 +1,111 @@
+:root { --bg:#1a1a1a; --card:#222; --amarelo:#e8c547; --cinza:#8a8a8a; --ok:#2ecc71; --erro:#e74c3c; }
+[hidden] { display: none !important; }
+
+body {
+    background-color: var(--bg);
+    color: var(--cinza);
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.card_container {
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    box-sizing: border-box;
+    background-color: var(--card);
+}
+
+h1 { color: var(--amarelo); font-size: 36px; text-align: center; margin-top: 0; text-transform: uppercase; letter-spacing: 2px; }
+h2 { color: var(--cinza); font-size: 14px; margin-bottom: 20px; }
+h3 { color: var(--amarelo); font-size: 18px; line-height: 1.4; margin: 8px 0 16px; }
+
+.input_group { text-align: left; margin-bottom: 16px; }
+.input_group label { display: block; color: var(--cinza); font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+.input_group input, .input_group select, .input_group textarea {
+    width: 100%; background-color: var(--bg); color: var(--amarelo);
+    border: 1px solid #8a8a8a; border-radius: 8px; padding: 12px; font-size: 14px;
+    outline: none; transition: all 0.2s ease; box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+.input_group input + input { margin-top: 8px; }
+.input_group input::placeholder, .input_group textarea::placeholder { color: #555; }
+.input_group input:focus, .input_group select:focus, .input_group textarea:focus {
+    border-color: var(--amarelo); box-shadow: 0 0 8px rgba(232, 197, 71, 0.2);
+}
+
+.btn_submit {
+    width: 100%; background-color: var(--amarelo); color: var(--bg); border: none; border-radius: 8px;
+    padding: 12px; font-size: 15px; font-weight: bold; text-transform: uppercase; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background-color 0.2s, transform 0.1s; margin-top: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.btn_submit:hover { background-color: #f1c40f; }
+.btn_submit:active { transform: scale(0.98); }
+.btn_submit:disabled { opacity: .5; cursor: not-allowed; }
+.btn_submit + .btn_submit, .btn_submit.sec { margin-top: 10px; }
+.btn_submit.sec { background: transparent; color: var(--cinza); border: 1px solid var(--cinza); }
+.btn_submit.sec:hover { color: var(--amarelo); border-color: var(--amarelo); background: transparent; }
+.btn_submit.danger { background: var(--erro); color: #fff; }
+
+button:focus-visible { outline: 2px solid var(--amarelo); outline-offset: 2px; }
+
+/* Navegação entre telas */
+.tela { display: none; }
+.tela.ativa { display: block; }
+.links { display: flex; justify-content: center; gap: 24px; margin-top: 24px; }
+.links button { background: none; border: none; color: var(--cinza); font: inherit; cursor: pointer; text-decoration: underline; }
+.links button:hover { color: var(--amarelo); }
+
+.msg { padding: 12px; border-radius: 8px; margin: 0 0 24px; font-size: 14px; }
+.msg.erro { background: rgba(231, 76, 60, .15); color: var(--erro); }
+.msg.ok { background: rgba(46, 204, 113, .15); color: var(--ok); }
+.meta { font-size: 14px; margin: 8px 0; }
+
+/* Sala e placar */
+.jogadores, .placar { display: flex; gap: 10px; justify-content: center; align-items: stretch; margin-bottom: 12px; }
+.jogador, .card_jogador { flex: 1; background: var(--bg); border: 1px solid #323238; border-radius: 8px; padding: 12px; }
+.jogador.pronto { border-color: var(--ok); color: var(--ok); }
+.card_jogador.vencedor, .jogador.da-vez { border-color: var(--amarelo); }
+.card_jogador b, .jogador b { display: block; color: var(--amarelo); font-size: 20px; margin: 4px 0; }
+.card_jogador small { display: block; line-height: 1.6; }
+.contagem { color: var(--amarelo); font-size: 36px; font-weight: bold; margin: 16px 0 0; }
+
+/* Partida */
+.timers { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+.timers b { color: var(--amarelo); }
+.timers b.urgente { color: var(--erro); }
+.vez { color: var(--amarelo); margin: 8px 0; }
+.alternativas { display: grid; gap: 8px; }
+.alt {
+    text-align: left; background: var(--bg); color: var(--amarelo); border: 1px solid #8a8a8a; border-radius: 8px;
+    padding: 12px; font: inherit; font-size: 14px; cursor: pointer; transition: border-color .2s, background .2s;
+}
+.alt:hover:not(:disabled) { border-color: var(--amarelo); }
+.alt:disabled { cursor: default; }
+.alt.ok { background: var(--ok); color: var(--bg); border-color: var(--ok); }
+.alt.bad { background: var(--erro); color: #fff; border-color: var(--erro); }
+.feedback { min-height: 24px; margin-top: 16px; font-weight: bold; }
+
+/* Ranking */
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 10px 6px; border-bottom: 1px solid #323238; text-align: left; }
+th { color: var(--cinza); }
+td { color: var(--amarelo); }
+
+@media (max-width: 520px) {
+    .card_container { padding: 20px 14px; }
+    h1 { font-size: 28px; }
+    .placar, .jogadores { flex-direction: column; }
+}
